@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luiz | Editor de Vídeo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #0b0b12;
+    --card: #141421;
+    --accent: #8b5cf6;
+    --accent-strong: #a855f7;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+section {
+    padding: 100px 10%;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+p {
+    color: var(--muted);
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    width: 100%;
+    background: rgba(10,10,18,0.85);
+    backdrop-filter: blur(12px);
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(139,92,246,0.2);
+}
+
+.logo {
+    font-weight: 400;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.menu-toggle {
+    font-size: 26px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu-toggle:hover {
+    color: var(--accent);
+}
+
+/* SIDE MENU */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 280px;
+    height: 100vh;
+    background: rgba(15,15,25,0.98);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    padding: 120px 40px;
+    gap: 30px;
+    transition: 0.4s ease;
+    border-left: 1px solid rgba(139,92,246,0.2);
+    z-index: 999;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.side-menu a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.side-menu a:hover {
+    color: var(--accent);
+}
+
+.side-menu.active {
+    right: 0;
+}
+
+.menu-btn {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    padding-top: 140px;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(rgba(11,11,18,0.85), rgba(11,11,18,0.95)),
+        url("fundo.jpg") center/cover no-repeat;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: var(--accent);
+    text-shadow: 0 0 12px rgba(168,85,247,0.6);
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(139,92,246,0.4);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(168,85,247,0.7);
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.card-link .card {
+    height: 100%;
+}
+
+.card {
+    background: var(--card);
+    padding: 30px;
+    border-radius: 14px;
+    transition: 0.3s;
+    border: 1px solid rgba(139,92,246,0.15);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    border: 1px solid rgba(139,92,246,0.4);
+    box-shadow: 0 0 25px rgba(139,92,246,0.3);
+}
+
+/* CONTACT */
+.contact-box {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 14px;
+    margin-top: 40px;
+    border: 1px solid rgba(139,92,246,0.2);
+}
+
+/* PORTFOLIO */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.project-card {
+    background: var(--card);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(139,92,246,0.15);
+    transition: 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    border: 1px solid rgba(139,92,246,0.4);
+    box-shadow: 0 0 25px rgba(139,92,246,0.3);
+}
+
+.project-thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.project-content {
+    padding: 20px;
+}
+
+.project-link {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* SOBRE PROFESSIONAL */
+#sobre-profissional {
+    position: relative;
+    background: linear-gradient(rgba(11,11,18,0.9), rgba(11,11,18,0.9)), url('sobre-fundo.jpg') center/cover no-repeat;
+    padding: 120px 10%;
+    color: var(--text);
+}
+
+/* FADE */
+.fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade.hide {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* MENU DESKTOP */
+.nav-desktop {
+    display: flex;
+    gap: 35px;
+    align-items: center;
+}
+
+.nav-desktop a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.nav-desktop a:hover {
+    color: var(--accent);
+}
+
+/* RESPONSIVIDADE */
+@media(max-width:768px){
+    section {padding: 80px 5%;}
+    .hero-content {max-width: 90%;}
+    .cards {gap:20px;}
+    .card {padding:20px;}
+
+    .nav-desktop {
+    display: none;
+}
+}
+
+@media(min-width:769px){
+    .menu-toggle {
+        display: none;
+    }
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #08080f;
+    color: var(--muted);
+    border-top: 1px solid rgba(139,92,246,0.2);
+}
+</style>
+</head>
+
+<body id="top">
+
+<header>
+    <h3 class="logo"><a href="#top">Luiz <span>| Video Editor</span></a></h3>
+
+    <!-- MENU DESKTOP -->
+    <nav class="nav-desktop">
+        <a href="#servicos">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#sobre-profissional">Me Conheça</a>
+        <a href="#contato">Contato</a>
+    </nav>
+
+    <!-- HAMBURGUER MOBILE -->
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+</header>
+
+<div class="side-menu" id="sideMenu">
+    <a href="#servicos" onclick="toggleMenu()">Serviços</a>
+    <a href="#portfolio" onclick="toggleMenu()">Portfólio</a>
+    <a href="#sobre-profissional" onclick="toggleMenu()">Me Conheça</a>
+    <a href="#contato" onclick="toggleMenu()">Contato</a>
+    <a href="#contato" class="btn menu-btn" onclick="toggleMenu()">Fechar Orçamento</a>
+</div>
+
+<section class="hero">
+    <div class="hero-content fade">
+        <h1>Edição de vídeo com <span class="highlight">estratégia e identidade visual</span></h1>
+        <p>Transformo gravações em vídeos profissionais com ritmo, narrativa e acabamento visual de alto nível.</p>
+        <br>
+        <a href="#contato" class="btn">Solicitar Orçamento</a>
+    </div>
+</section>
+
+<section id="servicos">
+    <div class="fade">
+        <h2>Serviços</h2>
+        <div class="cards">
+
+    <a href="#contato" class="card-link">
+        <div class="card">
+            <h3>YouTube</h3>
+            <p>Edição completa com cortes dinâmicos e identidade visual.</p>
+        </div>
+    </a>
+
+    <a href="#contato" class="card-link">
+        <div class="card">
+            <h3>Shorts & Reels</h3>
+            <p>Conteúdos verticais com ritmo ágil e clareza visual.</p>
+        </div>
+    </a>
+
+    <a href="#contato" class="card-link">
+        <div class="card">
+            <h3>Institucional</h3>
+            <p>Construção visual profissional para marcas.</p>
+        </div>
+    </a>
+
+</div>
+    </div>
+</section>
+
+<section id="portfolio">
+    <div class="fade">
+        <h2>Portfólio</h2>
+        <div class="cards">
+            <div class="card">
+                <video width="100%" controls preload="metadata" poster="poster1.jpg">
+                    <source src="video1.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+                <a href="https://youtu.be/ocqSZFxXSn0" class="btn" target="_blank">Ver Projeto →</a>
+            </div>
+            <div class="card">
+                <video width="100%" controls preload="metadata" poster="poster2.jpg">
+                    <source src="video2.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+                <a href="https://youtube.com/shorts/nyc4c9POOOA?feature=share" class="btn" target="_blank">Ver Projeto →</a>
+            </div>
+            <div class="card">
+                <video width="100%" controls preload="metadata" poster="poster3.jpg">
+                    <source src="https://youtu.be/Z1t-9B-NAj4" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+                <a href="link_do_projeto3" class="btn" target="_blank">Ver Projeto →</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="https://www.instagram.com/luizrubim.editor/" class="btn" target="_blank">Ver mais trabalhos →</a>
+        </div>
+    </div>
+</section>
+
+<section id="sobre-profissional">
+    <div class="fade">
+        <h2>Sobre esse profissional</h2>
+        <p>Sou editor de vídeo com mais de 10 anos de experiência, transformando ideias em conteúdos que engajam. Comecei ainda criança, criando vídeos para meu canal no YouTube e aprendendo na prática a importância do ritmo, da narrativa e da estética.<br><br>
+        Hoje trabalho com uma variedade de ferramentas, de apps mobile a softwares avançados como Premiere Pro e DaVinci Resolve, sempre equilibrando criatividade e precisão técnica. Meu objetivo é ajudar cada projeto a se destacar e conectar com o público de forma memorável.</p>
+    </div>
+</section>
+
+<section id="contato">
+    <div class="fade">
+        <h2>Contato</h2>
+        <div class="contact-box">
+            <div style="text-align: center; margin-top: 20px;">
+                <a 
+                    href="https://api.whatsapp.com/send?phone=5511910525148&text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20de%20edi%C3%A7%C3%A3o%20de%20v%C3%ADdeo." 
+                    class="btn" target="_blank" aria-label="Enviar solicitação via WhatsApp">
+                    Enviar Solicitação via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2026 Luiz - Editor de Vídeo
+</footer>
+
+<script>
+function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+}
+
+// Fade in/out suave
+const faders = document.querySelectorAll('.fade');
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('show');
+            entry.target.classList.remove('hide');
+        } else {
+            entry.target.classList.remove('show');
+            entry.target.classList.add('hide');
+        }
+    });
+}, { threshold: 0.2 });
+
+faders.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
